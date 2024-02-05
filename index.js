@@ -1,11 +1,21 @@
-import express from 'express';
-import dotenv from 'dotenv';
+const app = require('./app');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 dotenv.config();
-
-const app = express();
 const PORT = process.env.PORT || 5800;
 
-app.listen(PORT, () => {
-	console.log('Server is running at ', PORT);
-});
+mongoose
+	.connect(
+		'mongodb+srv://ineedadmin:ineedpassword@cluster0.pmjwpba.mongodb.net/posservice?retryWrites=true&w=majority'
+		// you can change your mongourl in here
+	)
+	.then((result) => {
+		console.log('Db connnected - POS Service');
+		app.listen(PORT, () => {
+			console.log(
+				'Up and running! -- This is our POS service at PORT',
+				PORT
+			);
+		});
+	});
